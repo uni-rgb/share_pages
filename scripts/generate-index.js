@@ -1,67 +1,129 @@
 import fs from "fs";
 import path from "path";
 
-const pagesDir = "./pages";
+const ROOT_DIR = "./pages";
+const OUTPUT_FILE = "./index.html";
 
-const dirs = fs
-  .readdirSync(pagesDir, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name)
-  .sort();
+/*
+  ディレクトリを再帰走査してHTMLツリー生成
+*/
+function buildTree(dirPath, relativePath = "") {
+  const entries = fs
+    .readdirSync(dirPath, { withFileTypes: true })
+    .sort((a, b) => {
+      // ディレクトリを先
+      if (a.isDirectory() && !b.isDirectory()) return -1;
+      if (!a.isDirectory() && b.isDirectory()) return 1;
+      return a.name.localeCompare(b.name);
+    });
 
-const links = dirs
-  .map((dir) => {
-    return `
-    <li>
-      <a href="./pages/${dir}/">${dir}</a>
-    </li>
-  `;
-  })
-  .join("\n");
+  let html = `<ul>`;
 
-const html = `
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    const rel = path.join(relativePath, entry.name);
+
+    // ディレクトリ
+    if (entry.isDirectory()) {
+      html += `
+        <li>
+          <details>
+            <summary>${entry.name}</summary>
+            ${buildTree(fullPath, rel)}
+          </details>
+        </li>
+      `;
+      continue;
+    }
+
+    // htmlファイルのみ表示
+    if (entry.isFile() && entry.name.endsWith(".html")) {
+      const href = `./pages/${rel}`.replaceAll("\\", "/");
+
+      html += `
+        <li class="file">
+          <a href="${href}">
+            ${entry.name}
+          </a>
+        </li>
+      `;
+    }
+  }
+
+  html += `</ul>`;
+  return html;
+}
+
+const treeHtml = buildTree(ROOT_DIR);
+
+const output = `
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Pages</title>
+  <title>Pages Index</title>
 
   <style>
     body {
-      font-family: sans-serif;
-      padding: 40px;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        sans-serif;
+      padding: 32px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin-bottom: 24px;
     }
 
     ul {
-      display: grid;
-      gap: 12px;
-      padding: 0;
       list-style: none;
+      padding-left: 20px;
     }
 
     li {
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      margin: 4px 0;
+    }
+
+    summary {
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+    }
+
+    summary:hover {
+      opacity: 0.7;
+    }
+
+    .file::before {
+      content: "・ ";
+      color: #666;
     }
 
     a {
-      display: block;
-      padding: 16px;
+      color: inherit;
       text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    details {
+      margin: 4px 0;
     }
   </style>
 </head>
-
 <body>
   <h1>Pages</h1>
-
-  <ul>
-    ${links}
-  </ul>
+  ${treeHtml}
 </body>
 </html>
 `;
 
-fs.writeFileSync("./index.html", html);
+fs.writeFileSync(OUTPUT_FILE, output);
 
 console.log("index.html generated");
