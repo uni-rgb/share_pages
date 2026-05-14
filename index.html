@@ -3,43 +3,84 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Pages</title>
+  <title>Pages Index</title>
 
   <style>
     body {
-      font-family: sans-serif;
-      padding: 40px;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        sans-serif;
+      padding: 32px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin-bottom: 24px;
     }
 
     ul {
-      display: grid;
-      gap: 12px;
-      padding: 0;
       list-style: none;
+      padding-left: 20px;
     }
 
     li {
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      margin: 4px 0;
+    }
+
+    summary {
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+    }
+
+    summary:hover {
+      opacity: 0.7;
+    }
+
+    .file::before {
+      content: "・ ";
+      color: #666;
     }
 
     a {
-      display: block;
-      padding: 16px;
+      color: inherit;
       text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    details {
+      margin: 4px 0;
     }
   </style>
 </head>
-
 <body>
   <h1>Pages</h1>
-
   <ul>
-    
-    <li>
-      <a href="./pages/private/">private</a>
-    </li>
-  
-  </ul>
+        <li>
+          <details>
+            <summary>private</summary>
+            <ul>
+        <li>
+          <details>
+            <summary>trip</summary>
+            <ul>
+        <li class="file">
+          <a href="./pages/private/trip/奥鬼怒温泉旅行計画.html">
+            奥鬼怒温泉旅行計画.html
+          </a>
+        </li>
+      </ul>
+          </details>
+        </li>
+      </ul>
+          </details>
+        </li>
+      </ul>
 </body>
 </html>
