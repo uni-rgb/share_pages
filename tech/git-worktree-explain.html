@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI駆動開発における Git Worktree 運用まとめ</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.7;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px;
+        color: #222;
+        background: #fafafa;
+      }
+
+      h1,
+      h2,
+      h3 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 6px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        margin-top: 48px;
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        margin-top: 32px;
+        font-size: 1.2rem;
+        border-bottom: none;
+      }
+
+      code {
+        background: #eee;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+
+      pre {
+        background: #1e1e1e;
+        color: #ddd;
+        padding: 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f0f0f0;
+      }
+
+      .note {
+        background: #fff7d6;
+        border-left: 4px solid #f0b400;
+        padding: 12px 16px;
+        margin: 20px 0;
+      }
+
+      .good {
+        background: #e9f7ef;
+        border-left: 4px solid #1f9d55;
+        padding: 12px 16px;
+        margin: 20px 0;
+      }
+
+      .bad {
+        background: #fdecec;
+        border-left: 4px solid #d64545;
+        padding: 12px 16px;
+        margin: 20px 0;
+      }
+
+      ul li {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI駆動開発における Git Worktree 運用まとめ</h1>
+
+    <p>
+      GitHub Copilot 等の AI を用いて並列実装を行う際の、 Git Worktree
+      の役割・通常の branch との違い・実運用パターンを整理したメモ。
+    </p>
+
+    <hr />
+
+    <h2>1. AI並列開発で何が問題になるのか</h2>
+
+    <p>通常の Git 運用と AI 駆動開発では、問題の種類が少し異なる。</p>
+
+    <h3>主な問題</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>問題</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Git conflict</td>
+          <td>同じファイルを複数 branch が変更する</td>
+        </tr>
+        <tr>
+          <td>作業空間汚染</td>
+          <td>AI が他タスクの変更を見て誤実装する</td>
+        </tr>
+        <tr>
+          <td>Context 汚染</td>
+          <td>Copilot が無関係 diff や WIP を拾う</td>
+        </tr>
+        <tr>
+          <td>Branch 切替事故</td>
+          <td>checkout により他作業が壊れる</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bad">
+      <strong>AI 開発で最悪の構成</strong>
+      <pre>
+1 working directory
++
+複数AI
++
+複数タスク
+  </pre
+      >
+    </div>
+
+    <hr />
+
+    <h2>2. 通常の branch 運用の限界</h2>
+
+    <p>通常は以下のような構成。</p>
+
+    <pre>
+project/
+ ├ .git
+ ├ src
+ └ ...
+</pre
+    >
+
+    <p>この場合、working directory は 1 つしか存在しない。</p>
+
+    <pre>
+git checkout feature/auth
+git checkout feature/device
+</pre
+    >
+
+    <p>branch を切り替えるたびに、作業空間全体が切り替わる。</p>
+
+    <div class="note">
+      VSCode を複数開いていても、同じ directory を見ているため、 branch 切替が全
+      Window に影響する。
+    </div>
+
+    <hr />
+
+    <h2>3. Worktree とは何か</h2>
+
+    <p>Git Worktree は、</p>
+
+    <div class="good">
+      <strong
+        >1つの repository に対して、複数の working directory
+        を作る仕組み</strong
+      >
+    </div>
+
+    <p>である。</p>
+
+    <h3>通常</h3>
+
+    <pre>
+project/
+</pre
+    >
+
+    <h3>Worktree</h3>
+
+    <pre>
+project-main/
+project-auth/
+project-device/
+</pre
+    >
+
+    <p>ただし repository は共有。</p>
+
+    <pre>
+shared .git repository
+  ├ project-main
+  ├ project-auth
+  └ project-device
+</pre
+    >
+
+    <hr />
+
+    <h2>4. branch と worktree の違い</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>通常 branch</th>
+          <th>worktree</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>working directory</td>
+          <td>1つ</td>
+          <td>複数</td>
+        </tr>
+        <tr>
+          <td>branch切替</td>
+          <td>checkoutで切替</td>
+          <td>同時存在可能</td>
+        </tr>
+        <tr>
+          <td>VSCode状態</td>
+          <td>共有</td>
+          <td>分離</td>
+        </tr>
+        <tr>
+          <td>AI context</td>
+          <td>混線しやすい</td>
+          <td>分離しやすい</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <h2>5. clone と worktree の違い</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>clone</th>
+          <th>worktree</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>.git</td>
+          <td>別</td>
+          <td>共有</td>
+        </tr>
+        <tr>
+          <td>fetch</td>
+          <td>個別</td>
+          <td>共有</td>
+        </tr>
+        <tr>
+          <td>disk usage</td>
+          <td>重い</td>
+          <td>軽い</td>
+        </tr>
+        <tr>
+          <td>Git管理</td>
+          <td>別repo</td>
+          <td>同一repoとして管理</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>重要な点</h3>
+
+    <p>worktree の本質は「軽量 clone」ではなく、</p>
+
+    <div class="good">Git が「複数作業空間」を正式サポートしている</div>
+
+    <p>という点。</p>
+
+    <hr />
+
+    <h2>6. 実際の worktree 作成方法</h2>
+
+    <h3>worktree 作成</h3>
+
+    <pre>
+cd project
+
+git worktree add ../project-auth -b feature/auth
+</pre
+    >
+
+    <h3>結果</h3>
+
+    <pre>
+project/
+project-auth/
+</pre
+    >
+
+    <h3>VSCode</h3>
+
+    <pre>
+code ../project-auth
+</pre
+    >
+
+    <hr />
+
+    <h2>7. ディレクトリ構成パターン</h2>
+
+    <h3>パターンA: 横並び（一般的）</h3>
+
+    <pre>
+workspace/
+ ├ repo-main/
+ ├ repo-auth/
+ ├ repo-device/
+ └ repo-ui/
+</pre
+    >
+
+    <h4>メリット</h4>
+
+    <ul>
+      <li>VSCode と相性が良い</li>
+      <li>AI context が混線しにくい</li>
+      <li>検索や watcher が安定</li>
+    </ul>
+
+    <hr />
+
+    <h3>パターンB: repo配下</h3>
+
+    <pre>
+workspace/
+ └ repo/
+     ├ .git
+     └ trees/
+         ├ auth/
+         ├ device/
+         └ ui/
+</pre
+    >
+
+    <h4>問題点</h4>
+
+    <ul>
+      <li>VSCode 検索が混線</li>
+      <li>Copilot context 汚染</li>
+      <li>Docker build context に混ざる</li>
+      <li>eslint/prettier が二重走査</li>
+    </ul>
+
+    <div class="note">
+      人間視点では整理されて見えるが、 AI/IDE/tooling
+      視点では分離された方が安全。
+    </div>
+
+    <hr />
+
+    <h2>8. おすすめ構成</h2>
+
+    <pre>
+workspace/
+ ├ main/
+ │   └ repo/
+ │
+ └ worktrees/
+     ├ repo-auth/
+     ├ repo-device/
+     └ repo-ui/
+</pre
+    >
+
+    <h3>理由</h3>
+
+    <ul>
+      <li>main と task workspace を分離できる</li>
+      <li>AI context 汚染を減らせる</li>
+      <li>管理しやすい</li>
+    </ul>
+
+    <hr />
+
+    <h2>9. AI駆動開発での運用ベストプラクティス</h2>
+
+    <h3>AI 1チャット = 1責務</h3>
+
+    <div class="bad">
+      <strong>悪い例</strong>
+      <pre>
+ログイン修正しながら
+テーブルUIも修正
+  </pre
+      >
+    </div>
+
+    <div class="good">
+      <strong>良い例</strong>
+      <pre>
+chat-auth = auth専用
+chat-ui = ui専用
+  </pre
+      >
+    </div>
+
+    <hr />
+
+    <h3>AI に責務を毎回明示</h3>
+
+    <pre>
+このチャットは device module 専用。
+他moduleは変更しない。
+</pre
+    >
+
+    <hr />
+
+    <h3>Diff review 前提</h3>
+
+    <pre>
+生成
+↓
+diff review
+↓
+commit
+</pre
+    >
+
+    <p>AI生成コードは必ず review する。</p>
+
+    <hr />
+
+    <h2>10. コンフリクトはなくならない</h2>
+
+    <p>worktree は conflict 解決ツールではない。</p>
+
+    <div class="note">
+      worktree が解決するのは 「状態分離」「context分離」「作業空間分離」。
+    </div>
+
+    <p>同じファイルを変更すれば conflict は起きる。</p>
+
+    <hr />
+
+    <h2>11. 実際の現場で多い運用</h2>
+
+    <ul>
+      <li>小さいPRを大量に出す</li>
+      <li>branch寿命を短くする</li>
+      <li>feature toggle を使う</li>
+      <li>contract first(API schema固定)</li>
+      <li>interface先行</li>
+    </ul>
+
+    <hr />
+
+    <h2>12. 本質</h2>
+
+    <div class="good">
+      <strong>本当に重要なのは worktree そのものではない。</strong>
+    </div>
+
+    <p>重要なのは以下。</p>
+
+    <ul>
+      <li>状態分離</li>
+      <li>責務分離</li>
+      <li>context分離</li>
+      <li>AIごとの workspace 分離</li>
+    </ul>
+
+    <p>worktree はそれを実現するための、 Git公式のやり方である。</p>
+  </body>
+</html>
