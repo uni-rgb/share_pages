@@ -40,7 +40,7 @@
   html,body{overflow-x:clip}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;
-    line-height:1.7;font-size:15.5px;-webkit-font-smoothing:antialiased}
+    line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
   a{color:var(--sea);text-underline-offset:3px}
   .wrap{max-width:1120px;margin:0 auto;padding:0 18px 64px}
 
@@ -57,10 +57,10 @@
   .fact span{font-weight:700;font-size:14.5px;line-height:1.45}
   .fact span small{font-weight:500;color:var(--ink2);font-size:12.5px}
 
-  h2.sec{font-family:"Noto Serif JP",serif;font-size:21px;margin:46px 0 4px;scroll-margin-top:118px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h2.sec{font-family:"Noto Serif JP",serif;font-size:25px;margin:58px 0 8px;padding-bottom:9px;border-bottom:2px solid var(--line2);scroll-margin-top:118px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   h2.sec .no{font-family:"Noto Sans JP",sans-serif;font-size:12px;font-weight:900;color:var(--sun);border:1.5px solid var(--sun);border-radius:999px;padding:1px 9px;letter-spacing:.06em}
-  h2.sec .cnt{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;color:var(--ink3);font-weight:700}
-  .sec-lead{color:var(--ink2);margin:0 0 14px;font-size:14px}
+  h2.sec .cnt{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;color:var(--ink2);font-weight:700;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:2px 11px}
+  .sec-lead{color:var(--ink2);margin:0 0 16px;font-size:14.5px;max-width:46em}
 
   /* first picks */
   .picks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
@@ -88,18 +88,18 @@
   .warn b{color:var(--gold)}
 
   /* area nav + filters */
-  .toolbar{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line);margin-top:26px}
+  .toolbar{position:sticky;top:10px;z-index:20;background:var(--card);padding:12px 14px 10px;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-top:26px}
   .anav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-  .anav a{text-decoration:none;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:3px 12px}
+  .anav a{text-decoration:none;font-size:13px;font-weight:700;color:var(--ink2);background:var(--card2);border:1px solid var(--line2);border-radius:999px;padding:5px 13px}
   .filters{display:flex;flex-wrap:wrap;gap:6px}
-  .filters button{font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;border:1.5px solid var(--line2);background:var(--card);color:var(--ink2);border-radius:999px;padding:4px 13px}
+  .filters button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--line2);background:var(--card2);color:var(--ink2);border-radius:999px;padding:6px 15px}
   .filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .filters button:focus-visible,.anav a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
   .countline{font-size:13px;color:var(--ink2);margin-top:6px}
   .hintline{font-size:12.5px;color:var(--ink3);margin-top:2px}
 
   /* compact cards */
-  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
   @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:580px){.grid{grid-template-columns:1fr}}
   .cc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
@@ -108,12 +108,12 @@
   .cc .hint{font-size:11.5px;font-weight:700;color:var(--sea)}
   .cc.out{border-color:var(--gold);border-style:dashed}
   .cc.ref{opacity:.85;box-shadow:none}
-  .cc h4{margin:0;font-size:15.5px;line-height:1.45;font-family:"Noto Serif JP",serif}
+  .cc h4{margin:0;font-size:17px;line-height:1.45;font-family:"Noto Serif JP",serif}
   .cc h4 small{display:block;font-family:"Noto Sans JP",sans-serif;font-size:11.5px;color:var(--ink3);font-weight:700;letter-spacing:.03em}
-  .cc .desc{margin:0;font-size:13px;color:var(--ink);line-height:1.75}
+  .cc .desc{margin:0;font-size:13.5px;color:var(--ink);line-height:1.75}
   .cc .meta{margin-top:auto;font-size:12px;color:var(--ink2);display:flex;flex-direction:column;gap:2px;border-top:1px dashed var(--line);padding-top:8px}
   .cc .meta b{color:var(--ink3);font-weight:700;margin-right:5px}
-  .badge{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 9px;line-height:1.7;white-space:nowrap}
+  .badge{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:1px 10px;line-height:1.7;white-space:nowrap}
   .b-open{background:var(--forest-soft);color:var(--forest-ink)}
   .b-soon{background:var(--sun-soft);color:var(--sun-ink)}
   .b-lot{background:var(--sea-soft);color:var(--sea)}
@@ -139,18 +139,22 @@
   .fig{border-radius:var(--radius);overflow:hidden;margin-top:14px}
   .fig img{width:100%;height:200px;object-fit:cover;display:block}
   .fig figcaption{font-size:11.5px;color:var(--ink3);margin-top:5px}
-.cc .ph{width:100%;height:150px;object-fit:cover;border-radius:10px;display:block;margin-bottom:9px}
+.cc .phw{position:relative;margin:-15px -17px 4px}
+  .cc .ph{width:100%;height:175px;object-fit:cover;border-radius:12px 12px 0 0;display:block}
+  .cc .ph-badge{position:absolute;top:10px;left:10px;font-size:12px;padding:2px 12px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .cc.ref .ph{margin:8px 0 4px;width:100%;height:150px;border-radius:10px}
 .pick .ph{width:100%;height:170px;object-fit:cover;border-radius:10px;display:block;margin:8px 0 10px}
   /* detail dialog */
   dialog.dlg{border:none;border-radius:16px;padding:0;max-width:680px;width:calc(100% - 32px);max-height:88vh;background:var(--card);color:var(--ink);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+  dialog.dlg[open]{display:flex;flex-direction:column}
   dialog.dlg::backdrop{background:rgba(12,12,10,.55)}
-  .dlg-in{padding:18px 20px 20px;overflow-y:auto;max-height:88vh}
-  .dlg-head{display:flex;align-items:flex-start;gap:10px}
+  .dlg-head{display:flex;align-items:flex-start;gap:10px;flex:none;padding:16px 20px 12px;border-bottom:1px solid var(--line);background:var(--card);border-radius:16px 16px 0 0}
+  .dlg-scroll{overflow-y:auto;padding:14px 20px 20px}
   .dlg-head h3{font-family:"Noto Serif JP",serif;font-size:20px;line-height:1.4;margin:0;flex:1;min-width:0;overflow-wrap:break-word}
   .dlg-head h3 small{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--ink3);font-weight:700;margin-top:2px}
   .dlg-close{font:inherit;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--line2);background:var(--card);color:var(--ink2);border-radius:999px;padding:4px 14px;flex:none}
   .dlg-close:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-  .dlg-main{width:100%;height:300px;object-fit:cover;border-radius:12px;display:block;margin-top:12px;background:var(--card2)}
+  .dlg-main{width:100%;height:320px;object-fit:cover;border-radius:12px;display:block;background:var(--card2)}
   @media (max-width:580px){.dlg-main{height:210px}}
   .dlg-thumbs{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
   .dlg-thumbs button{border:2px solid transparent;border-radius:8px;padding:0;cursor:pointer;background:none;line-height:0}
@@ -282,13 +286,11 @@
   </footer>
 </div>
 <dialog class="dlg" id="dlg" aria-labelledby="dlg-name">
-  <div class="dlg-in">
-    <div class="dlg-head">
-      <h3 id="dlg-name"></h3>
-      <button class="dlg-close" id="dlg-close" type="button">閉じる</button>
-    </div>
-    <div id="dlg-body"></div>
+  <div class="dlg-head">
+    <h3 id="dlg-name"></h3>
+    <button class="dlg-close" id="dlg-close" type="button">閉じる</button>
   </div>
+  <div class="dlg-scroll" id="dlg-body"></div>
 </dialog>
 
 <script>
@@ -377,10 +379,10 @@ AREAS.forEach(function(ar){
   items.forEach(function(c){
     var di = CARDS.length; CARDS.push(c);
     h += '<article class="cc' + (c.out ? ' out' : '') + '" data-cat="' + (c.st === 'lot' ? 'open' : c.st) + '" data-di="' + di + '" tabindex="0" role="button" aria-haspopup="dialog" aria-label="' + c.n + 'の詳細を開く">'
-      + (c.img ? '<img class="ph" src="' + c.img + '" alt="" loading="lazy">' : '')
+      + (c.img ? '<div class="phw"><img class="ph" src="' + c.img + '" alt="" loading="lazy"><span class="badge ph-badge ' + CLS[c.st] + '">' + c.sl + '</span></div>' : '')
       + '<h4>' + c.n + '<small>' + c.area + '</small></h4>'
       + '<p class="desc">' + c.d + '</p>'
-      + '<div class="meta"><span><span class="badge ' + CLS[c.st] + '">' + c.sl + '</span></span>'
+      + '<div class="meta">' + (c.img ? '' : '<span><span class="badge ' + CLS[c.st] + '">' + c.sl + '</span></span>')
       + '<span class="basis">' + c.basis + '</span>'
       + (c.price ? '<span><b>料金</b>' + c.price + '</span>' : '')
       + '<span><b>車の目安</b>大森から' + c.drive + '</span>'
