@@ -11,12 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#f4f1ea; --bg2:#ece7db; --card:#fffdf8; --card2:#f8f4ec;
-    --ink:#23201a; --ink2:#5c564a; --ink3:#8a8172;
-    --line:#ddd4c2; --line2:#cbbfa5;
+    --bg:#edf0e2; --bg2:#e0e6cf; --card:#fdfef8; --card2:#edf2df;
+    --ink:#1d241c; --ink2:#4d5a46; --ink3:#7e8c72;
+    --line:#ccd6ba; --line2:#a3ba8a;
     --sun:#c2570f; --sun-soft:#fbe9d7; --sun-ink:#8a3a06;
-    --forest:#2e5d43; --forest-soft:#e2eee5; --forest-ink:#1e4630;
-    --sea:#175d78; --sea-soft:#ddeef3;
+    --forest:#1e5631; --forest-soft:#d9edda; --forest-ink:#17452a;
+    --sea:#0f6f8f; --sea-soft:#d9edf3;
     --red:#a52a1e; --red-soft:#f9e3df;
     --gold:#8a6d1a; --gold-soft:#f6ecd0;
     --shadow:0 8px 22px rgba(60,45,20,.09);
@@ -24,12 +24,12 @@
   }
   @media (prefers-color-scheme: dark){
     :root{
-      --bg:#14161a; --bg2:#191c21; --card:#1f232a; --card2:#252a33;
-      --ink:#f0ebe0; --ink2:#b9b2a2; --ink3:#8b8578;
-      --line:#333a44; --line2:#454e5b;
-      --sun:#f08a3c; --sun-soft:#3d2716; --sun-ink:#ffb37a;
-      --forest:#7fc79b; --forest-soft:#1d2f26; --forest-ink:#9adbb6;
-      --sea:#6db9d4; --sea-soft:#1b303c;
+      --bg:#0c110d; --bg2:#10160f; --card:#171e17; --card2:#1f291f;
+      --ink:#f2efe2; --ink2:#b7bfa9; --ink3:#87937c;
+      --line:#2b372a; --line2:#43563f;
+      --sun:#f59e4c; --sun-soft:#3a2410; --sun-ink:#ffb37a;
+      --forest:#8fd0a4; --forest-soft:#15301f; --forest-ink:#a9e2bb;
+      --sea:#7cc7de; --sea-soft:#14323e;
       --red:#ff9a8a; --red-soft:#3a201c;
       --gold:#e3c56a; --gold-soft:#332c16;
       --shadow:0 8px 22px rgba(0,0,0,.32);
@@ -57,7 +57,7 @@
   .fact span{font-weight:700;font-size:14.5px;line-height:1.45}
   .fact span small{font-weight:500;color:var(--ink2);font-size:12.5px}
 
-  h2.sec{font-family:"Noto Serif JP",serif;font-size:25px;margin:58px 0 8px;padding-bottom:9px;border-bottom:2px solid var(--line2);scroll-margin-top:118px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h2.sec{font-family:"Noto Serif JP",serif;font-size:25px;margin:58px 0 8px;padding-bottom:9px;border-bottom:2px solid var(--line2);scroll-margin-top:86px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   h2.sec .no{font-family:"Noto Sans JP",sans-serif;font-size:12px;font-weight:900;color:var(--sun);border:1.5px solid var(--sun);border-radius:999px;padding:1px 9px;letter-spacing:.06em}
   h2.sec .cnt{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;color:var(--ink2);font-weight:700;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:2px 11px}
   .sec-lead{color:var(--ink2);margin:0 0 16px;font-size:14.5px;max-width:46em}
@@ -87,13 +87,21 @@
   .warn{background:var(--gold-soft);border:1px solid var(--gold);border-radius:12px;padding:12px 16px;font-size:13.5px;margin-top:14px}
   .warn b{color:var(--gold)}
 
+  section[id]{scroll-margin-top:70px}
+
   /* area nav + filters */
-  .toolbar{position:sticky;top:10px;z-index:20;background:var(--card);padding:12px 14px 10px;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-top:26px}
-  .anav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-  .anav a{text-decoration:none;font-size:13px;font-weight:700;color:var(--ink2);background:var(--card2);border:1px solid var(--line2);border-radius:999px;padding:5px 13px}
-  .filters{display:flex;flex-wrap:wrap;gap:6px}
-  .filters button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--line2);background:var(--card2);color:var(--ink2);border-radius:999px;padding:6px 15px}
-  .filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .toolbar{margin-top:24px}
+  .anav{display:flex;flex-wrap:nowrap;gap:8px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .anav::-webkit-scrollbar{display:none}
+  .anav a{flex:none;text-decoration:none;font-size:13px;font-weight:700;color:#fff;background:var(--forest);border:1px solid var(--forest);border-radius:999px;padding:6px 14px}
+  @media (prefers-color-scheme: dark){.anav a{background:var(--forest-soft);color:var(--forest-ink);border-color:var(--forest)}}
+  .filterbar{position:sticky;top:8px;z-index:30;margin:12px 0 6px}
+  .filters{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;scrollbar-width:none;background:var(--card);border:1.5px solid var(--line2);border-radius:999px;padding:6px;box-shadow:var(--shadow)}
+  .filters::-webkit-scrollbar{display:none}
+  .filters .fc{font-size:11px;font-weight:900;opacity:.7;margin-left:5px}
+  @media (min-width:900px){.filters{flex-wrap:wrap;overflow:visible;border-radius:18px}}
+  .filters button{flex:none;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;border:1.5px solid transparent;background:transparent;color:var(--ink2);border-radius:999px;padding:7px 15px}
+  .filters button[aria-pressed="true"]{background:var(--sun);color:#fff;border-color:var(--sun)}
   .filters button:focus-visible,.anav a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
   .countline{font-size:13px;color:var(--ink2);margin-top:6px}
   .hintline{font-size:12.5px;color:var(--ink3);margin-top:2px}
@@ -140,8 +148,8 @@
   .fig img{width:100%;height:200px;object-fit:cover;display:block}
   .fig figcaption{font-size:11.5px;color:var(--ink3);margin-top:5px}
 .cc .phw{position:relative;margin:-15px -17px 4px}
-  .cc .ph{width:100%;height:175px;object-fit:cover;border-radius:12px 12px 0 0;display:block}
-  .cc .ph-badge{position:absolute;top:10px;left:10px;font-size:12px;padding:2px 12px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .cc .ph{width:100%;height:190px;object-fit:cover;border-radius:12px 12px 0 0;display:block}
+  .cc .ph-badge{position:absolute;top:10px;left:10px;font-size:12.5px;padding:3px 13px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
   .cc.ref .ph{margin:8px 0 4px;width:100%;height:150px;border-radius:10px}
 .pick .ph{width:100%;height:170px;object-fit:cover;border-radius:10px;display:block;margin:8px 0 10px}
   /* detail dialog */
@@ -232,6 +240,10 @@
     <nav class="anav" aria-label="エリアへ移動">
       <a href="#fuji-y">富士山麓・山梨</a><a href="#fuji-s">富士山麓・静岡（圏外）</a><a href="#nasu">那須高原</a><a href="#gunma">群馬</a><a href="#chichibu">秩父・長瀞</a><a href="#lake">湖</a><a href="#sea">海</a><a href="#ref">満席・参考</a>
     </nav>
+    <div class="countline" id="countline"></div>
+    <div class="hintline">カードを押すと、その場で写真と詳細が見られます。公式サイトへ行く前にここで絞り込みを。</div>
+  </div>
+  <div class="filterbar">
     <div class="filters" role="group" aria-label="空き状況で絞り込み">
       <button type="button" data-f="all" aria-pressed="true">すべて</button>
       <button type="button" data-f="open" aria-pressed="false">受付中・空きあり</button>
@@ -239,8 +251,6 @@
       <button type="button" data-f="feat" aria-pressed="false">年越し特集に掲載</button>
       <button type="button" data-f="ask" aria-pressed="false">要確認</button>
     </div>
-    <div class="countline" id="countline"></div>
-    <div class="hintline">カードを押すと、その場で写真と詳細が見られます。公式サイトへ行く前にここで絞り込みを。</div>
   </div>
 
   <div id="sections"></div>
@@ -466,6 +476,14 @@ document.querySelectorAll('.cc.ref').forEach(function(card){
 
 // ---- filter ----
 var btns = document.querySelectorAll('.filters button');
+btns.forEach(function(b){
+  var f = b.getAttribute('data-f');
+  var n = (f === 'all') ? document.querySelectorAll('.cc').length
+    : document.querySelectorAll('.cc[data-cat="' + f + '"]').length;
+  var s = document.createElement('span');
+  s.className = 'fc'; s.textContent = n;
+  b.appendChild(s);
+});
 function applyFilter(f){
   var shown = 0;
   document.querySelectorAll('.cc').forEach(function(card){
