@@ -51,7 +51,9 @@
   .hero h1{font-family:"Noto Serif JP",serif;font-weight:900;font-size:clamp(26px,5.2vw,42px);line-height:1.25;margin:0 0 6px;text-shadow:0 2px 14px rgba(0,0,0,.45)}
   .hero .sub{margin:0;font-size:clamp(13px,2.5vw,15.5px);color:#ffe9cf;font-weight:500}
   .hero .photo-note{position:absolute;top:10px;right:14px;font-size:11px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.35);padding:2px 9px;border-radius:999px}
-  .intro{margin:22px 0 0;font-size:15px;line-height:1.8;color:var(--ink);max-width:46em}
+  .sum{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;flex-direction:column;gap:7px;max-width:640px}
+  .sum .row{display:flex;gap:14px;font-size:14.5px;line-height:1.6}
+  .sum .row b{flex:none;width:4.2em;color:var(--ink3);font-size:12.5px;font-weight:700;letter-spacing:.05em;padding-top:3px}
   .fact{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px;display:flex;flex-direction:column;min-width:135px;flex:1 1 140px}
   .fact b{font-size:11px;color:var(--ink3);font-weight:700;letter-spacing:.08em}
   .fact span{font-weight:700;font-size:14.5px;line-height:1.45}
@@ -197,7 +199,12 @@
     </div>
   </header>
 
-  <p class="intro">2026年12月31日（木）から1泊2日、2人で車で向かう年越しキャンプの候補です。全53件の空き状況を2026年11月12日に確認済みで、空きありは22件。出発は大田区・大森から。</p>
+  <div class="sum">
+    <div class="row"><b>日程</b><span>2026年12月31日（木）〜2027年1月1日（金）・1泊2日</span></div>
+    <div class="row"><b>人数</b><span>2人</span></div>
+    <div class="row"><b>場所</b><span>大田区・大森から出発、車で移動</span></div>
+    <div class="row"><b>調査状況</b><span>全53件の空き状況を2026年11月12日に確認済み（空きあり22件）</span></div>
+  </div>
 
   <!-- ===== First picks ===== -->
   <div class="picks">
