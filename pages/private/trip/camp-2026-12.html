@@ -220,6 +220,22 @@
     html{scroll-behavior:auto}
     *,*::before,*::after{transition:none !important;animation:none !important}
   }
+
+  /* shiori (floating button + sheet) */
+  .shiori-fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,calc(env(safe-area-inset-bottom) + 14px));z-index:60;display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:15px;font-weight:700;letter-spacing:.01em;color:#fff;background:var(--blue);border:0;border-radius:999px;padding:13px 20px;min-height:48px;cursor:pointer;box-shadow:0 10px 28px rgba(0,60,140,.28),0 3px 10px rgba(0,0,0,.14);transition:transform .2s ease}
+  .shiori-fab svg{flex:none;display:block}
+  .shiori-fab:active{transform:scale(.96)}
+  .shiori-sec{margin-top:24px}
+  .shiori-sec h4{font-size:16.5px;font-weight:750;letter-spacing:-.01em;margin:0 0 8px}
+  .shiori-p{font-size:14.5px;line-height:1.85;margin:0}
+  .shiori-list,.shiori-steps{margin:0;padding-left:1.3em}
+  .shiori-list li,.shiori-steps li{margin:7px 0;font-size:14.5px;line-height:1.75}
+  .shiori-list .st{font-weight:650}
+  .shiori-sunlink{display:inline-block;margin-top:24px;font-size:14.5px;font-weight:650;color:var(--blue);text-decoration:none}
+  .shiori-sunlink:hover{text-decoration:underline}
+  @media (max-width:580px){
+    .shiori-fab{padding:12px 18px;font-size:14.5px}
+  }
 </style>
 </head>
 <body>
@@ -304,7 +320,7 @@
     </article>
   </div>
 
-  <details class="sunfold">
+  <details class="sunfold" id="sunrise-times">
     <summary>元日の日の出の時刻（参考）</summary>
     <p class="sec-lead">2027年1月1日の日の出時刻（国立天文台の計算）。海は水平線からそのまま昇りますが、<strong>山間部は稜線の分だけ実際に見える時刻が遅くなります</strong>。渓谷・林間サイトは「日の出そのものより、朝の光と雰囲気」を楽しむ枠として正直に書き分けています。</p>
     <div class="sunrise">
@@ -347,6 +363,47 @@
     <button class="dlg-close" id="dlg-close" type="button">閉じる</button>
   </div>
   <div class="dlg-scroll" id="dlg-body"></div>
+</dialog>
+
+<button class="shiori-fab" id="shiori-fab" type="button" aria-haspopup="dialog" aria-controls="shiori-dlg">
+  <svg viewBox="0 0 24 24" width="16" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12V21l-6-4.2L6 21z"/></svg>
+  しおり
+</button>
+<dialog class="dlg" id="shiori-dlg" aria-labelledby="shiori-name">
+  <div class="dlg-head">
+    <h3 id="shiori-name">年越しキャンプのしおり<small>2026年12月31日（木）〜2027年1月1日（金）・1泊2日</small></h3>
+    <button class="dlg-close" id="shiori-close" type="button">閉じる</button>
+  </div>
+  <div class="dlg-scroll">
+    <div class="dlg-facts">
+      <span><b>日程</b>2026年12月31日（木）〜2027年1月1日（金）、1泊2日</span>
+      <span><b>人数</b>2人</span>
+      <span><b>テーマ</b>山の中で静かに過ごして、初日の出を見る</span>
+    </div>
+    <div class="shiori-sec">
+      <h4>現在の状況</h4>
+      <p class="shiori-p">場所は検討中です。第一候補だった大洗キャンプ場とおいしいキャンプ場はイメージと合わず、見直し中。イメージに一番近いのは「山中湖＋富士山越しの朝」です。</p>
+    </div>
+    <div class="shiori-sec">
+      <h4>候補メモ（2026-11-18時点）</h4>
+      <ul class="shiori-list">
+        <li><strong>LScamp山中湖</strong> — <span class="st">12/31 空きあり</span>。山中湖で富士山越しの朝が見られる、イメージに一番近い候補</li>
+        <li><strong>パインウッドオートキャンプ場</strong>（山梨市）— <span class="st">空き要確認</span>。予約は電話のみ</li>
+        <li><strong>西湖キャンプビレッジ・ノーム</strong> — <span class="st">11/20から受付開始</span></li>
+        <li><strong>西湖自由キャンプ場</strong> — <span class="st">11/21 8:00受付開始</span></li>
+        <li><strong>ほったらかしキャンプ場</strong> — <span class="st">空き要確認</span></li>
+      </ul>
+    </div>
+    <div class="shiori-sec">
+      <h4>これから決めること</h4>
+      <ol class="shiori-steps">
+        <li>場所を決める</li>
+        <li>予約する</li>
+        <li>出発時刻・買い物・お風呂の段取りを詰める</li>
+      </ol>
+    </div>
+    <a class="shiori-sunlink" href="#sunrise-times" id="shiori-sun-link">元日の日の出の時刻（参考）を見る ↓</a>
+  </div>
 </dialog>
 
 <script>
@@ -562,6 +619,33 @@ function tick(){
   el.innerHTML = 'あと ' + d + '日 ' + h + '時間 ' + m + '分 <small>' + s + '秒</small>';
 }
 tick(); setInterval(tick, 1000);
+
+// ---- shiori ----
+var sdlg = document.getElementById('shiori-dlg');
+var shioriLastFocus = null;
+function openShiori(){
+  shioriLastFocus = document.activeElement;
+  if (sdlg.showModal) sdlg.showModal(); else sdlg.setAttribute('open','');
+}
+function closeShiori(){ if (sdlg.close) sdlg.close(); }
+document.getElementById('shiori-fab').addEventListener('click', openShiori);
+document.getElementById('shiori-close').addEventListener('click', closeShiori);
+sdlg.addEventListener('click', function(e){ if (e.target === sdlg) closeShiori(); });
+sdlg.addEventListener('close', function(){
+  if (shioriLastFocus && shioriLastFocus.focus) shioriLastFocus.focus();
+});
+var shioriSunLink = document.getElementById('shiori-sun-link');
+if (shioriSunLink){
+  shioriSunLink.addEventListener('click', function(e){
+    e.preventDefault();
+    closeShiori();
+    var fold = document.getElementById('sunrise-times');
+    if (fold){
+      fold.open = true;
+      fold.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+}
 </script>
 </body>
 </html>
