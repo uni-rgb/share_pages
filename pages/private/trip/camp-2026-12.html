@@ -237,6 +237,21 @@
   @media (max-width:580px){
     .shiori-fab{padding:12px 18px;font-size:14.5px}
   }
+
+  /* shop list (floating button stacked above shiori + sheet) */
+  .shop-fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(max(16px,calc(env(safe-area-inset-bottom) + 14px)) + 60px);z-index:60;display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:15px;font-weight:700;letter-spacing:.01em;color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:13px 20px;min-height:48px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.16),0 3px 10px rgba(0,0,0,.10);transition:transform .2s ease}
+  .shop-fab svg{flex:none;display:block}
+  .shop-fab:active{transform:scale(.96)}
+  .shop-cat{font-size:14.5px;font-weight:700;margin:16px 0 2px}
+  .shop-list{margin:0;padding-left:1.3em}
+  .shop-list li{margin:9px 0;font-size:14.5px;line-height:1.75}
+  .shop-list a{color:var(--blue);text-decoration:none;font-weight:650}
+  .shop-list a:hover{text-decoration:underline}
+  .shop-price{font-weight:700;white-space:nowrap}
+  .shop-note{display:block;font-size:13.5px;color:var(--ink2);line-height:1.7}
+  @media (max-width:580px){
+    .shop-fab{padding:12px 18px;font-size:14.5px}
+  }
 </style>
 </head>
 <body>
@@ -435,6 +450,90 @@
       </ol>
     </div>
     <a class="shiori-sunlink" href="#sunrise-times" id="shiori-sun-link">元日の日の出の時刻（参考）を見る ↓</a>
+  </div>
+</dialog>
+
+<button class="shop-fab" id="shop-fab" type="button" aria-haspopup="dialog" aria-controls="shop-dlg">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l-1.1 10.2a2 2 0 0 1-2 1.8H8.6a2 2 0 0 1-2-1.8L5.5 8z"/><path d="M8.7 10V6.5a3.3 3.3 0 0 1 6.6 0V10"/></svg>
+  買い物リスト
+</button>
+<dialog class="dlg" id="shop-dlg" aria-labelledby="shop-name">
+  <div class="dlg-head">
+    <h3 id="shop-name">買い物リスト<small>年越しキャンプの道具と当日の買い物</small></h3>
+    <button class="dlg-close" id="shop-close" type="button">閉じる</button>
+  </div>
+  <div class="dlg-scroll">
+    <p class="shiori-p">道具は2人で折半、寝袋・マット・チェアは各自。価格は2026-11-20時点の確認価格で、買う前に各ページで再確認を。</p>
+    <div class="shiori-sec">
+      <h4>折半で買う道具</h4>
+      <p class="shop-cat">テント（どれか1つ）</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001003906513/" target="_blank" rel="noopener">スノーピーク アメニティドームM</a> — <span class="shop-price">40,980円</span>（ヨドバシ.com）<span class="shop-note">5人用表記で2〜3人に余裕・4人可。冬は3シーズン系なので設営場所に注意。</span></li>
+        <li><a href="https://item.rakuten.co.jp/naturum/3454294/" target="_blank" rel="noopener">コールマン タフドーム VI/3025</a> — <span class="shop-price">37,680円</span>（楽天市場・ナチュラム）<span class="shop-note">4〜5人用。</span></li>
+        <li><a href="https://www.yodobashi.com/product/100000001005234095/" target="_blank" rel="noopener">DOD エイテント</a> — <span class="shop-price">58,530円</span>（ヨドバシ.com）<span class="shop-note">5人用、前室が広い。</span></li>
+      </ul>
+      <p class="shop-cat">ランタン（メイン）</p>
+      <ul class="shop-list">
+        <li><a href="https://item.rakuten.co.jp/heimat-berg/goz209012/" target="_blank" rel="noopener">ゴールゼロ Lighthouse 600</a> — <span class="shop-price">12,980円</span>（楽天市場）<span class="shop-note">最大600ルーメン・USB充電。</span></li>
+      </ul>
+      <p class="shop-cat">バーナー</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001001660229/" target="_blank" rel="noopener">SOTO レギュレーターストーブ ST-310</a> — <span class="shop-price">7,320円</span>（ヨドバシ.com）<span class="shop-note">低温でも火力が安定。</span></li>
+      </ul>
+      <p class="shop-cat">テーブル</p>
+      <ul class="shop-list">
+        <li><a href="https://item.rakuten.co.jp/himaraya/0000000617392/" target="_blank" rel="noopener">コールマン ナチュラルウッドロールテーブル クラシック110</a> — <span class="shop-price">17,387円</span>（楽天市場・ヒマラヤ）</li>
+      </ul>
+      <p class="shop-cat">クーラーボックス</p>
+      <ul class="shop-list">
+        <li><a href="https://item.rakuten.co.jp/canpanera/se9007/" target="_blank" rel="noopener">シマノ アイスボックスVL 22L</a> — <span class="shop-price">16,720円</span>（楽天市場）</li>
+      </ul>
+      <p class="shop-cat">焚き火台</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001003250252/" target="_blank" rel="noopener">コールマン ファイアーディスク</a> — <span class="shop-price">7,670円</span>（ヨドバシ.com）<span class="shop-note">現地レンタル（500円）もあるので、買わずに済ます手もある。</span></li>
+      </ul>
+      <p class="shop-cat">タープ</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001005349791/" target="_blank" rel="noopener">ロゴス ソーラーブロックヘキサタープセット M-BB</a> — <span class="shop-price">19,600円</span>（ヨドバシ.com）<span class="shop-note">ポール・ペグ付きセット、4人用。</span></li>
+      </ul>
+      <p class="shop-cat">クッカー</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001004612933/" target="_blank" rel="noopener">SOTO ナビゲータークックシステム SOD-501</a> — <span class="shop-price">8,800円</span>（ヨドバシ.com）</li>
+      </ul>
+    </div>
+    <div class="shiori-sec">
+      <h4>個人の装備</h4>
+      <p class="shop-cat">寝袋（どれか）</p>
+      <ul class="shop-list">
+        <li><a href="https://item.rakuten.co.jp/niche-express/nng00000004464/" target="_blank" rel="noopener">ナンガ オーロラテックス 600DX</a> — <span class="shop-price">41,900円</span>（楽天市場）<span class="shop-note">快適温度-6℃。</span></li>
+        <li><a href="https://www.yodobashi.com/product/100000001010219272/" target="_blank" rel="noopener">モンベル シームレスダウンハガー800 #0</a> — <span class="shop-price">50,000円</span>（ヨドバシ.com）<span class="shop-note">快適温度-8℃。店舗受取のみの表示あり。</span></li>
+      </ul>
+      <p class="shop-cat">マット（どれか）</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001008989854/" target="_blank" rel="noopener">EXPED デュラ 6R M</a> — <span class="shop-price">29,260円</span>（ヨドバシ.com）<span class="shop-note">R値5.8。</span></li>
+        <li><a href="https://item.rakuten.co.jp/sportsx/30383/" target="_blank" rel="noopener">サーモレスト ネオエアーXサーモ NXT R</a> — <span class="shop-price">46,200円</span>（楽天市場）<span class="shop-note">R値7.3・最軽量級。</span></li>
+      </ul>
+      <p class="shop-cat">チェア（どれか）</p>
+      <ul class="shop-list">
+        <li><a href="https://www.yodobashi.com/product/100000001005928386/" target="_blank" rel="noopener">ogawa ローチェアII</a> — <span class="shop-price">7,460円</span>（ヨドバシ.com）</li>
+        <li><a href="https://www.yodobashi.com/product/100000001002963590/" target="_blank" rel="noopener">スノーピーク ローチェア30</a> — <span class="shop-price">15,050円</span>（ヨドバシ.com）</li>
+      </ul>
+      <p class="shop-cat">サブランタン</p>
+      <ul class="shop-list">
+        <li><a href="https://item.rakuten.co.jp/canpanera/g37004/" target="_blank" rel="noopener">GOAL ZERO ライトハウス マイクロ フラッシュ</a> — <span class="shop-price">5,280円</span>（楽天市場）<span class="shop-note">手のひらサイズ・懐中電灯兼用。</span></li>
+      </ul>
+    </div>
+    <div class="shiori-sec">
+      <h4>当日に買うもの</h4>
+      <ul class="shop-list">
+        <li>夕食：BBQの肉・野菜、温かい汁物か鍋の材料</li>
+        <li>年越しそば</li>
+        <li>朝食：パン、卵、ベーコン、コーヒーかスープ</li>
+        <li>飲み物、つまみ・お菓子</li>
+        <li>氷、水、調味料、割り箸・紙皿（足りない分）</li>
+        <li>薪・炭・着火剤は予約に入っているので買わない</li>
+      </ul>
+    </div>
   </div>
 </dialog>
 
@@ -679,6 +778,21 @@ if (shioriSunLink){
     }
   });
 }
+
+// ---- shop list ----
+var kdlg = document.getElementById('shop-dlg');
+var shopLastFocus = null;
+function openShop(){
+  shopLastFocus = document.activeElement;
+  if (kdlg.showModal) kdlg.showModal(); else kdlg.setAttribute('open','');
+}
+function closeShop(){ if (kdlg.close) kdlg.close(); }
+document.getElementById('shop-fab').addEventListener('click', openShop);
+document.getElementById('shop-close').addEventListener('click', closeShop);
+kdlg.addEventListener('click', function(e){ if (e.target === kdlg) closeShop(); });
+kdlg.addEventListener('close', function(){
+  if (shopLastFocus && shopLastFocus.focus) shopLastFocus.focus();
+});
 </script>
 </body>
 </html>
